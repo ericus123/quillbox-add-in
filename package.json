@@ -9,10 +9,10 @@
   "config": {
     "app_to_debug": "excel",
     "app_type_to_debug": "desktop",
-    "dev_server_port": 3001
+    "dev_server_port": 3004
   },
   "scripts": {
-    "build": "yarn build:manifest webpack --mode production",
+    "build": "webpack --mode production",
     "build:dev": "yarn build:manifest:dev webpack --mode development",
     "dev-server": "webpack serve --mode development",
     "build:manifest": "node build-manifest.js",
@@ -22,7 +22,7 @@
     "prettier": "office-addin-lint prettier",
     "signin": "office-addin-dev-settings m365-account login",
     "signout": "office-addin-dev-settings m365-account logout",
-    "start": "yarn build && office-addin-debugging start manifest.xml",
+    "start": "office-addin-debugging start manifest.xml",
     "stop": "office-addin-debugging stop manifest.xml",
     "validate": "office-addin-manifest validate manifest.xml",
     "watch": "webpack --mode development --watch"

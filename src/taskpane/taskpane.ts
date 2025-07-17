@@ -1,16 +1,21 @@
-/* global Excel console */
+async function handleSelectionChanged(event: Excel.WorksheetSelectionChangedEventArgs) {
+  await Excel.run(async (context) => {
+    const sheet = context.workbook.worksheets.getActiveWorksheet();
+    const range = sheet.getRange(event.address);
+    range.load("values");
+    await context.sync();
 
-export async function insertText(text: string) {
-  // Write text to the top left cell.
-  try {
-    await Excel.run(async (context) => {
-      const sheet = context.workbook.worksheets.getActiveWorksheet();
-      const range = sheet.getRange("A1");
-      range.values = [[text]];
-      range.format.autofitColumns();
-      await context.sync();
-    });
-  } catch (error) {
-    console.log("Error: " + error);
+    const cellValue = range.values[0][0] || "";
+    // Pass cellValue as-is; if it contains HTML, the editor should render it
+    openRichTextEditor(cellValue);
+  });
+}
+function openRichTextEditor(cellValue: any) {
+  const editorContainer = document.getElementById("rich-text-editor");
+  if (editorContainer) {
+    editorContainer.innerHTML = cellValue;
+    editorContainer.style.display = "block";
+  } else {
+    console.warn("Rich text editor container not found.");
   }
 }
